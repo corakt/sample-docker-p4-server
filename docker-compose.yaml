@@ -1,0 +1,20 @@
+services:
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    environment:
+      NAME: ${NAME:-master}
+      P4PORT: ${P4PORT:-1666}
+      P4D_SUPER: ${P4D_SUPER:-admin}
+    secrets:
+        - P4D_SUPER_PASSWD
+    ports:
+      - "${PORT:-1666:1666}"
+    volumes:
+      - ./data:/opt/perforce/servers/${NAME:-master}
+    restart: unless-stopped
+
+secrets:
+  P4D_SUPER_PASSWD:
+    environment: P4D_SUPER_PASSWD
